@@ -1,11 +1,12 @@
-# blockchain tracking serial numbers
+# Creating a Blockchain to track serial number
+### Cas de lutte contre la contrefaçon des médicaments
+
 
 # Intro:
-This blockchain application was forked from https://github.com/Jeiwan/blockchain_go, a simplified implementation of the Bitcoin Core protocol, to suit our specific need of transferring serial numbers. We made considerable code change and fixed a few bugs in the original source code.
+This blockchain application was forked from https://github.com/Jeiwan/blockchain_go, a simplified implementation of the Bitcoin Core protocol, to suit our specific need of transferring serial numbers.
 
 # Setup: 
-- Hardcoded GO_PATH in scripts. Change it before running.
-- In GO_PATH directory, run:
+- Install go in /usr/local and move the project to /usr/local/src/blockchain_go
 ```bash
 make setup
 make build
@@ -13,7 +14,7 @@ make build
 
 # Scenario:
 ### 1. Start "server/tracker" node. 
-All clients can add and update. This node is server-like only in the sense that it takes new blocks from miners and broadcasts them to client nodes. It is still the fastest miner winning. We could make the concensus mechanism fully decentralized later, but for now, this is good.
+All clients can add and update. This node is server-like only in the sense that it takes new blocks from miners and broadcasts them to client nodes. It is still the fastest miner winning. The concensus mechanism isn't fully decentralized for now.
 
 - ./server.sh localhost 3000 localhost 2000
 
@@ -52,12 +53,3 @@ In the dummy CLI, type:
 ### Other things to try in the dummy CLI:
 - get 30013001 0  (get [serial number] [salt])
 - print
-
-### API Get method example
-Request:  
-curl --header "Content-Type: application/json" --request POST --data '{"serialnumber":"3001","salt":"0"}' http://localhost:2000/get
-
-Return:  
-A JSON response {"Txid":string,"PubKeyHash":string} like: 
-{"Txid":"7ee2201c42c8bf5254b156242b6a6328f9f4c0adca8fea3e9b37bc1231a8223e","PubKeyHash":"e5b83a8ec33ec3d5e062307263bc01bc38b7a581"}
-
