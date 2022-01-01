@@ -1,0 +1,20 @@
+
+type TXInput struct {
+	Txid      []byte  // Txid = Transaction{nil, inputs, outputs}.Hash()
+	Vout      int     // always 0 in our forked code
+	Signature []byte  // where the signed data is transaction.TrimmedCopy(). See Sign() in transaction.go
+	PubKey    []byte  // public key associated with the signature
+}
+
+
+type TXOutput struct {
+	SerialNumberHash	[]byte  // hash(serial number + salt)
+	PubKeyHash  		[]byte  // hash(pubKey) of the recipient
+}
+
+
+type Transaction struct {
+	ID   []byte      // Txid
+	Vin  []TXInput   // list of inputs
+	Vout []TXOutput  // list of outputs
+}
