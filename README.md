@@ -1,55 +1,52 @@
-# Creating a Blockchain to track serial number
+# Création d'une blockchain pour le suivi des numéros de série
 ### Cas de lutte contre la contrefaçon des médicaments
 
 
-# Intro:
-This blockchain application was forked from https://github.com/Jeiwan/blockchain_go, a simplified implementation of the Bitcoin Core protocol, to suit our specific need of transferring serial numbers.
-
 # Setup: 
-- Install go in /usr/local and move the project to /usr/local/src/blockchain_go
+- Sur Linux, installer go dans /usr/local et déplacer le projet dans /usr/local/src/blockchain_go
 ```bash
 make setup
 make build
 ```
 
 # Scenario:
-### 1. Start "server/tracker" node. 
-All clients can add and update. This node is server-like only in the sense that it takes new blocks from miners and broadcasts them to client nodes. It is still the fastest miner winning. The concensus mechanism isn't fully decentralized for now.
+### 1. Lancer le noeud "server/tracker". 
+Tous les clients peuvent ajouter et faire la mise à jour. Ce nœud n'est un serveur que dans le sens où il prend les nouveaux blocs des miners et les diffuse aux nœuds clients. Il est toujours le miner le plus rapide à gagner. Le mécanisme de concensus n'est pas entièrement décentralisé pour le moment.
 
 - ./server.sh localhost 3000 localhost 2000
 
-### 2. Start miner. 
-We configured the miner to start mining after receiving two tx. In a new window, type:
+### 2. Lancer le miner. 
+Nous avons configuré le miner pour qu'il commence son travaille après avoir reçu deux transactions. Dans une nouvelle fenêtre, tapez :
 
 - ./miner.sh localhost 2999
 
-### 3. Start client one and create two serial numbers. In a new window, type:
+### 3. Démarrez le client 1 et créez deux numéros de série. Dans une nouvelle fenêtre, tapez :
 
 - ./wallet.sh localhost 3001
 
-In the dummy CLI, type:
-- add [paste node address from stdout] 3001 0   (3001 is the serial number; 0 is a placeholder for the legacy 'salt' field. We may use this field to add privacy, but let's keep the placeholder now)
-- add [paste node address from stdout] 30013001 0
+Dans le CLI, tapez :
+- add [coller l'addresse du noueud depuis stdout] 3001 0 (3001 est le numéro de série ; 0 est un espace réservé pour l'ancien champ "salt". Nous pourrons utiliser ce champ pour renforcer la confidentialité, mais gardons le placeholder pour le moment.)
+- add [coller l'addresse du noueud depuis stdout] 30013001 0
 
-### 4. Start client two, create a serial number, and transfer an existing serial number. In a new window, type:
+### 4. Démarrez le client deux, créez un numéro de série et transférez un numéro de série existant. Dans une nouvelle fenêtre, tapez :
 
 - ./wallet.sh localhost 3002
 
-In the dummy CLI, type:
-- add [paste node address from stdout] 3002 0
+Dans le CLI, tapez :
+- add [coller l'addresse du noeud depuis stdout] 3002 0
 
-Back to client one's window, type:
-- send [node one addr] [node two addr] 30013001 0  (transfer '30013001' from node one to node two)
+Retour à la fenêtre du client 1, tapez :
+- send [address du noeud 1] [addresse du noeud 2] 30013001 0  (transferrer '30013001' depuis le premier noeud au deuxième)
 
-### 5. Start client three, create a serial number, and transfer the '30013001' serial number again. In a new window, type:
+### 5. Démarrez le client 3, créez un numéro de série et transférez à nouveau le numéro de série '30013001'. Dans une nouvelle fenêtre, tapez :
 
 - ./wallet.sh localhost 3003
 
-In the dummy CLI, type:
-- add [paste node address from stdout] 3003 0
-- send [node two addr] [node three addr] 30013001 0  (transfer '30013001' from node two to node three)
+Dans le CLI, tapez :
+- add [coller l'addresse du noeud depuis stdout] 3003 0
+- send [address du noeud 2] [address du noeud 3] 30013001 0  (transferrer '30013001' depuis le premier noeud au deuxième)
 
 
-### Other things to try in the dummy CLI:
-- get 30013001 0  (get [serial number] [salt])
+### Autres choses à essayer dans le CLI :
+- get 30013001 0  (get [numero de série] [salt])
 - print
